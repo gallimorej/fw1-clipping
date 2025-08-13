@@ -34,8 +34,10 @@ component {
         
         // settings used in tests - same as main Application.cfc
         application.test_datasource = this.test_datasource;
-        application.testsRootMapping = "/clipping/tests/specs";
-        application.testsBrowseURL = "http://" & CGI.HTTP_HOST & "/clipping";
+        // application.testsRootMapping = "/clipping/tests/specs";
+        application.testsRootMapping = "/tests/specs";
+        // application.testsBrowseURL = "http://" & CGI.HTTP_HOST & "/clipping";
+        application.testsBrowseURL = "http://" & CGI.HTTP_HOST;
         
         return true;
     }
