@@ -10,13 +10,13 @@ component extends="testbox.system.BaseSpec"{
         ORMReload();
 
         // invoke controller object
-        mainController = createObject("component", "root.home.controllers.main");
+        mainController = createObject("component", "home.controllers.main");
 
         // injects the framework into the tested controller
         mainController.framework = createObject("component", "framework.one");
 
         // binds service to main controller
-        mainController.clippingService = createObject("component", "root.home.model.services.clippingService");
+        mainController.clippingService = createObject("component", "home.model.services.clippingService");
 
         // Mock request Context struct
         rc = structNew();

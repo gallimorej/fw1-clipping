@@ -18,6 +18,7 @@ component extends="framework.one" {
     };
 
     this.mappings["/root"] = getDirectoryFromPath(getCurrentTemplatePath());
+    this.mappings["/framework"] = expandPath("./framework");
     this.customTagPaths = this.mappings["/root"] & "customtags";
     this.triggerDataMember = true; // so we can access properties directly (no need for getters and setters)
 
@@ -31,7 +32,7 @@ component extends="framework.one" {
         reloadApplicationOnEveryRequest = true, //use this only in dev
         trace = false,
         // places where you don't want to load the framework
-        unhandledPaths = '/clipping/tests/',
+        unhandledPaths = '/clipping/tests/,/tests/',
 
         // cannot use below unless server understands rewriting
         // generateSES = true,

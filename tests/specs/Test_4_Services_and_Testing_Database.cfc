@@ -15,7 +15,7 @@ component extends="testbox.system.BaseSpec"{
         ORMReload();
 
         // initialize ORM, Services, create and populate the tables we need
-        clippingService = createObject("component", "root.home.model.services.clippingService");
+        clippingService = createObject("component", "home.model.services.clippingService");
         str_default_text = repeatString("<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br>Integer nec nulla ac justo viverra egestas.</p>", 10);
 
         // add a few fake articles using ORM

@@ -6,7 +6,7 @@ component extends="testbox.system.BaseSpec"{
     // executes before all suites
     function beforeAll(){
         // invoke object with UDFs
-        UDFs = createObject("component", "root.lib.functions");
+        UDFs = createObject("component", "lib.functions");
     }
 
     // executes after all suites

@@ -17,8 +17,8 @@ component extends="testbox.system.BaseSpec"{
                 expect( false ).toBeFalse();
             });
 
-            it("makes sure we are running on Railo Server", function(){
-                expect( !structKeyExists( server, "railo" ) ).toBeFalse();
+            it("makes sure we are running on Lucee Server", function(){
+                expect( structKeyExists( server, "lucee" ) ).toBeTrue();
             });
 
             it("contains a very value comparison", function(){

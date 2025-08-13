@@ -1,196 +1,73 @@
-<cfsetting showdebugoutput="false" >
-<!--- CPU Integration --->
-<cfparam name="url.cpu" default="false">
-<!--- SETUP THE ROOTS OF THE BROWSER RIGHT HERE --->
-<cfset rootMapping 	= application.testsRootMapping>
-<cfif directoryExists( rootMapping )>
-	<cfset rootPath = rootMapping>
-<cfelse>
-	<cfset rootPath = expandPath( rootMapping )>
-</cfif>
-
-<!--- param incoming --->
-<cfparam name="url.path" default="/">
-
-<!--- Decodes & Path Defaults --->
-<cfset url.path = urlDecode( url.path )>
-<cfif !len( url.path )>
-	<cfset url.path = "/">
-</cfif>
-
-<!--- Prepare TestBox --->
-<cfset testbox = new testbox.system.TestBox()>
-
-<!--- Run Tests Action?--->
-<cfif structKeyExists( url, "action")>
-	<cfif directoryExists( expandPath( rootMapping & url.path ) )>
-		<cfoutput>#testbox.init( directory=rootMapping & url.path ).run()#</cfoutput>
-	<cfelse>
-		<cfoutput><h1>Invalid incoming directory: #rootMapping & url.path#</h1></cfoutput>
-	</cfif>
-	<cfabort>
-
-</cfif>
-
-<!--- Get list of files --->
-<cfdirectory action="list" directory="#rootPath & url.path#" name="qResults" sort="asc" >
-<!--- Get the execute path --->
-<cfset executePath = rootMapping & ( url.path eq "/" ? "/" : url.path & "/" )>
-<!--- Get the Back Path --->
-<cfif url.path neq "/">
-	<cfset backPath = replacenocase( url.path, listLast( url.path, "/" ), "" )>
-	<cfset backPath = reReplace( backpath, "/$", "" )>
-</cfif>
-
-<!--- Do HTML --->
+<cfsetting showdebugoutput="false">
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="generator" content="TestBox v#testbox.getVersion()#">
-	<title>TestBox Global Runner</title>
-	<script><cfinclude template="/testbox/system/reports/assets/js/jquery.js"></script>
-	<script>
-	$(document).ready(function() {
-
-	});
-	function runTests(){
-		$("#btn-run").html( 'Running...' ).css( "opacity", "0.5" );
-		$("#tb-results").load( "index.cfm", $("#runnerForm").serialize(), function( data ){
-			$("#btn-run").html( 'Run' ).css( "opacity", "1" );
-		} );
-	}
-	function clearResults(){
-		$("#tb-results").html( '' );
-		$("#target").html( '' );
-		$("#labels").html( '' );
-	}
-	</script>
-	<style>
-	body{
-		font-family:  Monaco, "Lucida Console", monospace;
-		font-size: 10.5px;
-		line-height: 20px;
-	}
-	h1,h2,h3,h4{ margin-top: 3px;}
-	h1{ font-size: 14px;}
-	h2{ font-size: 13px;}
-	h3{ font-size: 12px;}
-	h4{ font-size: 11px; font-style: italic;}
-	ul{ margin-left: -10px;}
-	li{ margin-left: -10px; list-style: none;}
-	a{ text-decoration: none;}
-	a:hover{ text-decoration: underline;}
-	/** utility **/
-	.centered { text-align: center !important; }
-	.inline{ display: inline !important; }
-	.margin10{ margin: 10px; }
-	.padding10{ padding: 10px; }
-	.margin0{ margin: 0px; }
-	.padding0{ padding: 0px; }
-	.box{ border:1px solid gray; margin: 10px 0px; padding: 10px; background-color: #f5f5f5}
-	.pull-right{ float: right;}
-	.pull-left{ float: left;}
-	#tb-runner{ min-height: 155px}
-	#tb-runner #tb-left{ width: 17%; margin-right: 10px; margin-top: 0px; height: 135px; float:left;}
-	#tb-runner #tb-right{ width: 80%; }
-	#tb-runner fieldset{ padding: 10px; margin: 10px 0px; border: 1px dotted gray;}
-	#tb-runner input{ padding: 5px; margin: 2px 0px;}
-	#tb-runner .btn-red {
-		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f24537), color-stop(1, #c62d1f) );
-		background:-moz-linear-gradient( center top, #f24537 5%, #c62d1f 100% );
-		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f24537', endColorstr='#c62d1f');
-		background-color:#f24537;
-		-webkit-border-top-left-radius:5px;
-		-moz-border-radius-topleft:5px;
-		border-top-left-radius:5px;
-		-webkit-border-top-right-radius:5px;
-		-moz-border-radius-topright:5px;
-		border-top-right-radius:5px;
-		-webkit-border-bottom-right-radius:5px;
-		-moz-border-radius-bottomright:5px;
-		border-bottom-right-radius:5px;
-		-webkit-border-bottom-left-radius:5px;
-		-moz-border-radius-bottomleft:5px;
-		border-bottom-left-radius:5px;
-		text-indent:1.31px;
-		border:1px solid #d02718;
-		display:inline-block;
-		color:#ffffff;
-		font-weight:bold;
-		font-style:normal;
-		padding: 2px 5px;
-		margin: 2px 0px;
-		text-decoration:none;
-		text-align:center;
-		cursor: pointer;
-	}
-	#tb-runner .btn-red:hover {
-		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #c62d1f), color-stop(1, #f24537) );
-		background:-moz-linear-gradient( center top, #c62d1f 5%, #f24537 100% );
-		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c62d1f', endColorstr='#f24537');
-		background-color:#c62d1f;
-	}
-	#tb-runner .btn-red:active {
-		position:relative;
-		top:1px;
-	}
-	#tb-results{ padding: 10px;}
-	code{ padding: 2px 4px; color: #d14; white-space: nowrap; background-color: #f7f7f9; border: 1px solid #e1e1e8;}
-	</style>
+    <meta charset="utf-8">
+    <title>TestBox Test Runner</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 8px; }
+        .header h1 { margin: 0; font-size: 2.5em; }
+        .header p { margin: 10px 0 0 0; opacity: 0.9; }
+        .test-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .test-card { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.2s; }
+        .test-card:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+        .test-card h3 { margin: 0 0 15px 0; color: #333; border-bottom: 2px solid #667eea; padding-bottom: 10px; }
+        .btn { display: inline-block; padding: 10px 20px; margin: 5px; text-decoration: none; border-radius: 5px; font-weight: bold; transition: all 0.3s; }
+        .btn-primary { background: #667eea; color: white; }
+        .btn-primary:hover { background: #5a6fd8; transform: translateY(-1px); }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-secondary:hover { background: #5a6268; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-success:hover { background: #218838; }
+        .actions { text-align: center; margin: 30px 0; }
+        .summary { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 30px; }
+        .summary h3 { color: #495057; margin-top: 0; }
+        .footer { text-align: center; margin-top: 30px; padding: 20px; color: #6c757d; border-top: 1px solid #e0e0e0; }
+    </style>
 </head>
-<cfoutput>
 <body>
-
-<!--- Title --->
-<div id="tb-runner" class="box">
-<form name="runnerForm" id="runnerForm">
-<input type="hidden" name="opt_run" id="opt_run" value="true">
-
-	<div id="tb-left" class="centered">
-		<img src="TestBoxLogo125.png" alt="TestBox" id="tb-logo"/><br>v#testbox.getVersion()#<br>
-
-		<a href="index.cfm?action=runTestBox&path=#URLEncodedFormat( url.path )#" target="_blank"><button class="btn-red" type="button">Run All</button></a>
-	</div>
-
-	<div id="tb-right">
-		<h1>TestBox Test Browser: </h1>
-		<p>
-			Below is a listing of the files and folders starting from your root <code>#rootPath#</code>.  You can click on individual tests in order to execute them
-			or click on the <strong>Run All</strong> button on your left and it will execute a directory runner from the visible folder.
-		</p>
-
-		<fieldset><legend>Contents: #executePath#</legend>
-		<cfif url.path neq "/">
-			<a href="index.cfm?path=#URLEncodedFormat( backPath )#"><button type="button" class="btn-red">&lt;&lt; Back</button></a><br><hr>
-		</cfif>
-		<cfloop query="qResults">
-			<cfif refind( "^\.", qResults.name )>
-				<cfcontinue>
-			</cfif>
-
-			<cfset dirPath = URLEncodedFormat( ( url.path neq '/' ? '#url.path#/' : '/' ) & qResults.name )>
-			<cfif qResults.type eq "Dir">
-				+<a href="index.cfm?path=#dirPath#">#qResults.name#</a><br/>
-			<cfelseif listLast( qresults.name, ".") eq "cfm">
-				<a class="btn-red" href="#executePath & qResults.name#" <cfif !url.cpu>target="_blank"</cfif>>#qResults.name#</a><br/>
-			<cfelseif listLast( qresults.name, ".") eq "cfc" and qresults.name neq "Application.cfc">
-				<a class="test btn-red" href="#executePath & qResults.name#?method=runRemote" <cfif !url.cpu>target="_blank"</cfif>>#qResults.name#</a><br/>
-			<cfelse>
-				#qResults.name#<br/>
-			</cfif>
-
-		</cfloop>
-		</fieldset>
-
-	</div>
-
-</form>
-</div>
-
-<!--- Results --->
-<div id="tb-results"></div>
-
+    <div class="container">
+        <div class="header">
+            <h1>🧪 TestBox Test Runner</h1>
+            <p>Run your tests with confidence</p>
+        </div>
+        
+        <div class="actions">
+            <a href="run_all.cfm" class="btn btn-success">🚀 Run All Tests</a>
+            <a href="basic_runner.cfm" class="btn btn-success">📋 View All Tests</a>
+            <a href="simple_runner.cfm" class="btn btn-secondary">⚡ Quick Runner</a>
+        </div>
+        
+        <h2>Available Test Files</h2>
+        
+        <div class="test-grid">
+            <cfdirectory action="list" directory="specs" name="testFiles" filter="*.cfc">
+            
+            <cfloop query="testFiles">
+                <cfif testFiles.name neq "Application.cfc">
+                    <div class="test-card">
+                        <h3>#testFiles.name#</h3>
+                        <p>Run this test file to check functionality.</p>
+                        <a href="specs/#testFiles.name#?method=runRemote" target="_blank" class="btn btn-primary">▶️ Run Test</a>
+                        <a href="specs/#testFiles.name#?method=runRemote&format=json" target="_blank" class="btn btn-secondary">📊 JSON Output</a>
+                    </div>
+                </cfif>
+            </cfloop>
+        </div>
+        
+        <div class="summary">
+            <h3>📊 Test Summary</h3>
+            <p><strong>Total Test Files:</strong> #testFiles.recordCount - 1</p>
+            <p><strong>Status:</strong> <span style="color: #28a745;">✅ Ready to run</span></p>
+            <p>Click on any test file above to run it individually, or use the action buttons to access different test runners.</p>
+        </div>
+        
+        <div class="footer">
+            <p>Powered by TestBox | FW/1 Framework | Lucee Server</p>
+            <p><small>Tests are running on port 53559</small></p>
+        </div>
+    </div>
 </body>
 </html>
-</cfoutput>

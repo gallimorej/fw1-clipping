@@ -1,0 +1,38 @@
+{
+  "datasources": {
+    "dtb_clipping": {
+      "dbdriver": "MySQL",
+      "host": "localhost",
+      "port": "3306",
+      "database": "dtb_clipping",
+      "username": "your_username",
+      "password": "your_password",
+      "connectionLimit": 10,
+      "connectionTimeout": 1,
+      "maxPooledStatements": 100
+    },
+    "dtb_clipping_test": {
+      "dbdriver": "MySQL",
+      "host": "localhost",
+      "port": "3306",
+      "database": "dtb_clipping_test",
+      "username": "your_username",
+      "password": "your_password",
+      "connectionLimit": 10,
+      "connectionTimeout": 1,
+      "maxPooledStatements": 100
+    }
+  },
+  "this": {
+    "datasource": "dtb_clipping",
+    "ormEnabled": true,
+    "ormSettings": {
+      "dbcreate": "update",
+      "dialect": "MySQL",
+      "eventhandling": false,
+      "eventhandler": "root.home.model.beans.eventhandler",
+      "logsql": true,
+      "flushAtRequestEnd": false
+    }
+  }
+}
