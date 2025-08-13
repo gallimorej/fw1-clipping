@@ -615,4 +615,21 @@ component {
             writeOutput("Error debugging links: " & e.message & "<br>");
         }
     }
+
+    /**
+     * Sleep for a specified number of milliseconds
+     */
+    public void function sleep(required numeric milliseconds) {
+        try {
+            if (isObject(variables.driver)) {
+                // Use Java Thread.sleep for real Selenium
+                createObject("java", "java.lang.Thread").sleep(arguments.milliseconds);
+            } else {
+                // Fallback for mock mode - just wait
+                createObject("java", "java.lang.Thread").sleep(arguments.milliseconds);
+            }
+        } catch (any e) {
+            writeOutput("Error during sleep: " & e.message & "<br>");
+        }
+    }
 }
