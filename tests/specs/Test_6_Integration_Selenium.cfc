@@ -182,7 +182,7 @@ component extends="testbox.system.BaseSpec"{
         describe("Testing access to the summary service", function(){
 
             // sending a string to the summary service
-            cfhttp(url='http://localhost:5000/ajax_resumo' method='post' result='st_summary'){
+            cfhttp(url='http://localhost:5001/ajax_resumo' method='post' result='st_summary'){
                 cfhttpparam (type="formfield" name = "texto" value = "Some Test String");
             }
 

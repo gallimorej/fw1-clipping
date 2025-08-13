@@ -5,7 +5,7 @@ component {
 
     public function getSummary(string clipping_texto){
 
-        cfhttp(url='http://localhost:5000/ajax_resumo' method='post' result='st_summary'){
+        cfhttp(url='http://localhost:5001/ajax_resumo' method='post' result='st_summary'){
             cfhttpparam (type="formfield" name = "texto" value = clipping_texto);
         }
 
