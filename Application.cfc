@@ -10,11 +10,11 @@ component extends="framework.one" {
     this.ormsettings = {
         // cfclocation="./model/beans",
         dbcreate="update",       // update database tables only
-        dialect="MySQL",         // assume MySql, other dialects available http://help.adobe.com/en_US/ColdFusion/9.0/Developing/WSED380324-6CBE-47cb-9E5E-26B66ACA9E81.html
-        eventhandling="False",
+        dialect="MySQL8",        // MySQL 8.x dialect - change to MySQL5 if using MySQL 5.x
+        eventhandling=false,     // boolean value, not string
         eventhandler="root.home.model.beans.eventhandler",
-        logsql="true",
-        flushAtRequestEnd = "false"
+        logsql=true,             // boolean value, not string
+        flushAtRequestEnd=false  // boolean value, not string
     };
 
     this.mappings["/root"] = getDirectoryFromPath(getCurrentTemplatePath());

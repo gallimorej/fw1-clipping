@@ -1,7 +1,7 @@
 {
   "datasources": {
     "dtb_clipping": {
-      "dbdriver": "MySQL",
+      "dbdriver": "com.mysql.cj.jdbc.Driver",
       "host": "localhost",
       "port": "3306",
       "database": "dtb_clipping",
@@ -12,7 +12,7 @@
       "maxPooledStatements": 100
     },
     "dtb_clipping_test": {
-      "dbdriver": "MySQL",
+      "dbdriver": "com.mysql.cj.jdbc.Driver",
       "host": "localhost",
       "port": "3306",
       "database": "dtb_clipping_test",
@@ -28,7 +28,7 @@
     "ormEnabled": true,
     "ormSettings": {
       "dbcreate": "update",
-      "dialect": "MySQL",
+      "dialect": "MySQL8",
       "eventhandling": false,
       "eventhandler": "root.home.model.beans.eventhandler",
       "logsql": true,

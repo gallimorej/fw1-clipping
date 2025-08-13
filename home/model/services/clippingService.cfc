@@ -72,7 +72,7 @@ component {
         var hql = "from clipping order by clipping_id desc";
         var result.data = ormExecuteQuery(hql, false, {
             maxResults=arguments.perpage,
-            offset=( arguments.page - 1 ) * application.recordsPerPage
+            offset=( arguments.page - 1 ) * arguments.perpage
         });
         var totalhql = "select count(id) as total from clipping";
         var result.count = ormExecuteQuery(totalhql, true);

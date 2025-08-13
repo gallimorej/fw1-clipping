@@ -35,11 +35,13 @@ box version
 
 ## Step 4: Install Lucee
 
-Install the Lucee CFML engine through CommandBox:
+Install the latest stable Lucee CFML engine through CommandBox:
 
 ```bash
-box install lucee
+box install lucee@6.2.2.91
 ```
+
+**Note**: This application is configured to use Lucee 6.2.2.91, which is the latest stable version as of this installation guide. This version provides improved performance, security updates, and new features compared to previous versions.
 
 ## Step 5: Install FW/1 Framework
 
@@ -146,8 +148,10 @@ Navigate to your project directory and start the Lucee server:
 
 ```bash
 cd /path/to/your/fw1-clipping-project
-box server start
+box server start cfengine=lucee@6.2.2.91
 ```
+
+**Note**: The `cfengine` parameter ensures the server starts with the correct Lucee version. This is important for consistency across different development environments.
 
 ## Step 12: Apply Configuration
 
@@ -163,8 +167,10 @@ Stop and restart the server to load the new configuration:
 
 ```bash
 box server stop
-box server start
+box server start cfengine=lucee@6.2.2.91
 ```
+
+**Note**: Always specify the `cfengine` parameter when restarting to maintain the correct Lucee version.
 
 ## Step 14: Verify Installation
 
@@ -180,12 +186,24 @@ fw1-clipping (running)  http://127.0.0.1:XXXXX
     - HTTP
       - 127.0.0.1:XXXXX
 
-  CF Engine: lucee 5.4.6+9
+  CF Engine: lucee 6.2.2+91
 ```
+
+**Note**: The CF Engine should show `lucee 6.2.2+91` indicating you're running the latest stable version.
 
 ## Step 15: Access Your Application
 
 Open your web browser and navigate to the URL shown in the server status (typically `http://127.0.0.1:XXXXX`).
+
+## Step 16: Verify Lucee Version
+
+You can also verify the Lucee version through the server configuration:
+
+```bash
+box server show
+```
+
+This will display detailed server information including the exact Lucee version and configuration.
 
 ## Troubleshooting
 
@@ -208,6 +226,17 @@ Open your web browser and navigate to the URL shown in the server status (typica
    - Ensure Java 8+ is installed: `java -version`
    - Set JAVA_HOME if needed: `export JAVA_HOME=/usr/local/opt/openjdk`
 
+5. **Test Application Variables Missing**
+   - If you get "key [RECORDSPERPAGE] doesn't exist": Ensure `tests/Application.cfc` sets `application.recordsPerPage`
+   - If you get "key [UDFS] doesn't exist": Ensure `tests/Application.cfc` sets `application.UDFs`
+   - Verify the test Application.cfc has proper mappings for `/lib` and `/root` directories
+   - Check that `tests/Application.cfc` includes all required application variables
+
+6. **Test Database Issues**
+   - Ensure the test database `dtb_clipping_test` exists
+   - Verify the test Application.cfc uses the correct datasource
+   - Check that ORM settings in test Application.cfc point to the correct bean location
+
 ### Useful Commands
 
 ```bash
@@ -217,8 +246,8 @@ box server status
 # Stop server
 box server stop
 
-# Start server
-box server start
+# Start server with specific Lucee version
+box server start cfengine=lucee@6.2.2.91
 
 # View server logs
 box server log
@@ -228,6 +257,9 @@ box list
 
 # Update CommandBox
 box update
+
+# Show detailed server configuration
+box server show
 ```
 
 ## File Structure
@@ -244,6 +276,29 @@ fw1-clipping/
 ├── static/                  # CSS, JS, images
 └── tests/                   # Test specifications
 ```
+
+## Application Components
+
+### Utility Functions (lib/functions.cfc)
+The application includes a comprehensive set of utility functions accessible via `application.UDFs`:
+- **stripHTML()** - Removes HTML tags from strings
+- **safetext()** - Sanitizes HTML content for safe display
+- **prepara_string()** - Prepares strings for database storage
+- **abortOnCSRFAttack()** - CSRF protection for forms
+
+### Application Variables
+The main Application.cfc sets several critical variables:
+- `application.recordsPerPage` - Pagination setting (default: 12)
+- `application.UDFs` - Utility functions component
+- `application.datasource` - Main database connection
+- `application.test_datasource` - Test database connection
+
+### Test Configuration
+Tests use a separate Application.cfc (`tests/Application.cfc`) that:
+- Inherits no framework dependencies to avoid conflicts
+- Sets up test-specific database connections
+- Initializes all required application variables
+- Provides proper mappings for test components
 
 ## Database Configuration
 
@@ -263,6 +318,46 @@ Once your application is running:
 3. **Customize configuration** in `Application.cfc` as needed
 4. **Add data** to your clipping database
 
+## Running Tests
+
+This project includes a comprehensive test suite using TestBox. To run tests:
+
+### Test Configuration
+The project uses a separate test Application.cfc (`tests/Application.cfc`) that:
+- Uses the test database (`dtb_clipping_test`)
+- Sets required application variables for testing
+- Includes UDF functions and pagination settings
+
+### Running Tests
+Access the test runner through your browser:
+```
+http://127.0.0.1:XXXXX/testbox/cfml/runner/
+```
+
+Or run specific test bundles:
+```
+http://127.0.0.1:XXXXX/testbox/cfml/runner/?bundles=tests.specs.Test_4_Services_and_Testing_Database
+```
+
+### Test Requirements
+Tests require the following application variables to be properly set:
+- `application.recordsPerPage` - Pagination setting (default: 12)
+- `application.UDFs` - Utility functions component
+- `application.datasource` - Test database connection
+- `application.test_datasource` - Test database reference
+
+**Note**: If you encounter errors like "key [RECORDSPERPAGE] doesn't exist" or "key [UDFS] doesn't exist", ensure the test Application.cfc is properly configured with all required variables.
+
+## Lucee 6.x Features
+
+This application now runs on Lucee 6.2.2.91, which includes:
+
+- **Improved Performance**: Better memory management and faster execution
+- **Enhanced Security**: Latest security patches and improvements
+- **Modern Java Support**: Compatible with Java 8+ (tested with Java 24)
+- **Better ORM Support**: Enhanced Hibernate integration
+- **Updated Language Features**: Latest CFML language enhancements
+
 ## Support
 
 If you encounter issues:
@@ -275,3 +370,9 @@ If you encounter issues:
 ---
 
 **Note**: This guide assumes a clean macOS installation. Adjust paths and commands for your specific operating system if needed.
+
+## Version History
+
+- **2025-08-13**: Updated to Lucee 6.2.2.91 (latest stable version)
+- **2025-08-13**: Fixed test configuration issues - added missing application variables and UDFs support
+- **Previous**: Lucee 5.4.6.9

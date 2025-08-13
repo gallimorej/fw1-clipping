@@ -3,12 +3,14 @@
     "port":53559,
     "host":"127.0.0.1",
     "webroot":"./",
-    "engine":"lucee@5.4.6.9",
-    "cfengine":"lucee@5.4.6.9",
+    "engine":"lucee@6.2.2.91",
+    "cfengine":"lucee@6.2.2.91",
     "cfconfig":{
         "datasources":{
             "dtb_clipping":{
-                "dbdriver":"MySQL",
+                "dbdriver":"com.mysql.cj.jdbc.Driver",
+                "class":"com.mysql.cj.jdbc.Driver",
+                "bundleName":"com.mysql.cj",
                 "host":"localhost",
                 "port":"3306",
                 "database":"dtb_clipping",
@@ -19,7 +21,9 @@
                 "maxPooledStatements":100
             },
             "dtb_clipping_test":{
-                "dbdriver":"MySQL",
+                "dbdriver":"com.mysql.cj.jdbc.Driver",
+                "class":"com.mysql.cj.jdbc.Driver",
+                "bundleName":"com.mysql.cj",
                 "host":"localhost",
                 "port":"3306",
                 "database":"dtb_clipping_test",
@@ -35,7 +39,7 @@
             "ormEnabled":true,
             "ormSettings":{
                 "dbcreate":"update",
-                "dialect":"MySQL",
+                "dialect":"MySQL8",
                 "eventhandling":false,
                 "eventhandler":"root.home.model.beans.eventhandler",
                 "logsql":true,
@@ -49,5 +53,8 @@
     },
     "trayEnable":false,
     "openBrowser":false,
-    "directoryBrowsing":false
+    "directoryBrowsing":false,
+    "app":{
+        "cfengine":"lucee@6.2.2.91"
+    }
 }
