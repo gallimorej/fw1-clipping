@@ -83,8 +83,10 @@ component extends="framework.one" {
 
         // settings used in tests
         application.test_datasource = this.test_datasource;
-        application.testsRootMapping = "/clipping/tests/specs";
-        application.testsBrowseURL = "http://" & CGI.HTTP_HOST & "/clipping";
+        // application.testsRootMapping = "/clipping/tests/specs";
+        application.testsRootMapping = "/tests/specs";
+        // application.testsBrowseURL = "http://" & CGI.HTTP_HOST & "/clipping";
+        application.testsBrowseURL = "http://" & CGI.HTTP_HOST;
     }
 
     /**

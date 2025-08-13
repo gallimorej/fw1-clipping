@@ -38,7 +38,8 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/clipping">FW/1 Clipping App</a>
+          <!-- <a class="navbar-brand" href="/clipping">FW/1 Clipping App</a> -->
+          <a class="navbar-brand" href="/">FW/1 Clipping App</a>
         </div>
         <div class="collapse navbar-collapse">
 
