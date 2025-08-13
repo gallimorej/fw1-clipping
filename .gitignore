@@ -1,0 +1,102 @@
+# ColdFusion / Lucee specific
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# Lucee server files
+engine.war
+lucee-server/
+lucee-web/
+
+# CommandBox specific
+commandbox.jar
+box.json
+.cfconfig.json
+.cfconfig/
+.cfconfig-*.json
+
+# Framework dependencies (installed via CommandBox)
+framework/
+fw1/
+
+# ORM extension files
+*.lex
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Log files
+*.log
+logs/
+log/
+
+# Temporary files
+temp/
+tmp/
+.tmp/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE specific
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node modules (if any frontend build tools)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build outputs
+build/
+dist/
+target/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Backup files
+*.backup
+*.old
+
+# Session files
+*.session
+
+# Cache files
+cache/
+.cache/
+
+# Compiled files
+*.class
+*.jar
+*.war
+
+# Package files
+*.zip
+*.tar.gz
+*.rar
+
+# Local configuration overrides
+local.cfm
+local-config.cfm
