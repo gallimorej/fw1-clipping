@@ -47,19 +47,21 @@
             
             <cfloop query="testFiles">
                 <cfif testFiles.name neq "Application.cfc">
+                    <cfoutput>
                     <div class="test-card">
                         <h3>#testFiles.name#</h3>
                         <p>Run this test file to check functionality.</p>
                         <a href="specs/#testFiles.name#?method=runRemote" target="_blank" class="btn btn-primary">▶️ Run Test</a>
                         <a href="specs/#testFiles.name#?method=runRemote&format=json" target="_blank" class="btn btn-secondary">📊 JSON Output</a>
                     </div>
+                    </cfoutput>
                 </cfif>
             </cfloop>
         </div>
         
         <div class="summary">
             <h3>📊 Test Summary</h3>
-            <p><strong>Total Test Files:</strong> #testFiles.recordCount - 1</p>
+            <p><strong>Total Test Files:</strong> <cfoutput>#testFiles.recordCount#</cfoutput></p>
             <p><strong>Status:</strong> <span style="color: #28a745;">✅ Ready to run</span></p>
             <p>Click on any test file above to run it individually, or use the action buttons to access different test runners.</p>
         </div>
